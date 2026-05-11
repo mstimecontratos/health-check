@@ -122,6 +122,7 @@ const QUALITY_MAP: Record<PilarAnswer, "good" | "medium" | "bad"> = {
   C: "bad",
 };
 
+// Updated to match brand spec: yellow = #EAB308, red = #DC2626
 const QUALITY_STYLES = {
   good: {
     border: "#B8CD0F",
@@ -130,15 +131,15 @@ const QUALITY_STYLES = {
     label: "Excelente",
   },
   medium: {
-    border: "#F59E0B",
-    bg: "rgba(245,158,11,0.08)",
-    badge: "#F59E0B",
+    border: "#EAB308",
+    bg: "rgba(234,179,8,0.08)",
+    badge: "#EAB308",
     label: "Atenção",
   },
   bad: {
-    border: "#EF4444",
-    bg: "rgba(239,68,68,0.08)",
-    badge: "#EF4444",
+    border: "#DC2626",
+    bg: "rgba(220,38,38,0.08)",
+    badge: "#DC2626",
     label: "Crítico",
   },
 };
@@ -154,12 +155,10 @@ function getScoreLevel(
   return "red";
 }
 
-// Strips country code (+55) and all non-digit characters.
 function stripPhone(value: string): string {
   return value.replace(/^\+?55[\s-]?/, "").replace(/\D/g, "");
 }
 
-// Formats a raw input string as (XX) XXXXX-XXXX as the user types.
 function formatPhone(raw: string): string {
   const digits = stripPhone(raw).slice(0, 11);
   if (digits.length === 0) return "";
@@ -169,13 +168,60 @@ function formatPhone(raw: string): string {
   return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
 }
 
-// Returns true only for valid Brazilian mobile numbers (11 digits, DDD 11–99, 9th digit = 9).
 function validatePhone(value: string): boolean {
   const digits = stripPhone(value);
   if (digits.length !== 11) return false;
   const ddd = parseInt(digits.slice(0, 2), 10);
   if (ddd < 11 || ddd > 99) return false;
   return digits[2] === "9";
+}
+
+// ─── Layout chrome ────────────────────────────────────────────────────────────
+
+function Header() {
+  return (
+    <header
+      className="fixed top-0 left-0 right-0 z-50 h-16"
+      style={{ backgroundColor: "#2D2F5B" }}
+    >
+      {/* Wave texture overlay — place fundo_ondas-01.png in /public */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: "url(/fundo_ondas-01.png)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          opacity: 0.18,
+        }}
+      />
+      <div className="relative h-full max-w-3xl mx-auto px-6 flex items-center">
+        {/* Place logo_horizontal_em_branco-01.png in /public */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/logo_horizontal_em_branco-01.png"
+          alt="Moreira Suzuki Advogados"
+          className="h-9 w-auto object-contain"
+        />
+      </div>
+    </header>
+  );
+}
+
+function Footer() {
+  return (
+    <footer
+      className="fixed bottom-0 left-0 right-0 z-50 py-3 px-4"
+      style={{ backgroundColor: "#2D2F5B" }}
+    >
+      <p
+        className="text-center text-xs"
+        style={{ color: "rgba(255,255,255,0.45)" }}
+      >
+        © 2026 Desenvolvido por Moreira Suzuki Advocacia para Negócios ·{" "}
+        moreirasuzuki.com.br
+      </p>
+    </footer>
+  );
 }
 
 // ─── Primitives ───────────────────────────────────────────────────────────────
@@ -198,15 +244,15 @@ function ProgressBar({ current, total }: { current: number; total: number }) {
   const pct = Math.round((current / total) * 100);
   return (
     <div className="mb-8">
-      <div className="flex justify-between text-xs font-medium text-gray-500 mb-2">
+      <div className="flex justify-between text-xs font-medium text-gray-400 mb-2">
         <span>
           Etapa {current} de {total}
         </span>
         <span>{pct}%</span>
       </div>
-      <div className="w-full bg-gray-800 rounded-full h-0.5">
+      <div className="w-full bg-gray-100 rounded-full h-1">
         <div
-          className="h-0.5 rounded-full transition-all duration-500 ease-out"
+          className="h-1 rounded-full transition-all duration-500 ease-out"
           style={{ width: `${pct}%`, backgroundColor: "#B8CD0F" }}
         />
       </div>
@@ -227,7 +273,10 @@ function Tag({ children }: { children: React.ReactNode }) {
 
 function Question({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="text-lg sm:text-xl font-bold text-white mb-6 leading-snug">
+    <h2
+      className="text-lg sm:text-xl font-bold mb-6 leading-snug"
+      style={{ color: "#1A1A1A" }}
+    >
       {children}
     </h2>
   );
@@ -251,7 +300,7 @@ function NavButtons({
       {showBack && onBack && (
         <button
           onClick={onBack}
-          className="flex-1 py-3 rounded-lg font-bold text-sm border border-white/10 text-gray-400 hover:text-white hover:border-white/20 transition-all duration-200"
+          className="flex-1 py-3 rounded-full font-bold text-sm border border-gray-200 text-gray-500 hover:bg-gray-50 transition-all duration-200"
         >
           ← Voltar
         </button>
@@ -259,7 +308,7 @@ function NavButtons({
       <button
         onClick={onNext}
         disabled={nextDisabled}
-        className="flex-1 py-3.5 rounded-lg font-bold text-sm transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed hover:opacity-90 active:scale-[0.98]"
+        className="flex-1 py-3.5 rounded-full font-bold text-sm transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed hover:opacity-90 active:scale-[0.98]"
         style={{ backgroundColor: "#B8CD0F", color: "#1A1A1A" }}
       >
         {nextLabel}
@@ -292,13 +341,11 @@ function StepContext({
             <button
               key={opt.id}
               onClick={() => onChange(opt.id)}
-              className="w-full text-left px-4 py-3.5 rounded-lg border transition-all duration-150 text-sm font-medium"
+              className="w-full text-left px-4 py-3.5 rounded-xl border-2 transition-all duration-150 text-sm font-medium bg-white hover:bg-gray-50"
               style={{
-                borderColor: selected ? "#B8CD0F" : "#2e2e2e",
-                backgroundColor: selected
-                  ? "rgba(184,205,15,0.08)"
-                  : "transparent",
-                color: selected ? "#ffffff" : "#888888",
+                borderColor: selected ? "#B8CD0F" : "#E5E7EB",
+                color: selected ? "#1A1A1A" : "#6B7280",
+                ...(selected ? { backgroundColor: "rgba(184,205,15,0.07)" } : {}),
               }}
             >
               {opt.label}
@@ -340,28 +387,31 @@ function StepPilar({
             const selected = answer === key;
             const quality = QUALITY_MAP[key];
             const styles = QUALITY_STYLES[quality];
+            const badgeTextColor =
+              selected && quality === "bad" ? "#FFFFFF" : "#1A1A1A";
+
             return (
               <button
                 key={key}
                 onClick={() => onChange(key)}
-                className="w-full text-left p-4 rounded-xl border-2 transition-all duration-150 flex items-start gap-3"
+                className="w-full text-left p-4 rounded-xl border-2 transition-all duration-150 flex items-start gap-3 bg-white hover:bg-gray-50"
                 style={{
-                  borderColor: selected ? styles.border : "#2a2a2a",
-                  backgroundColor: selected ? styles.bg : "transparent",
+                  borderColor: selected ? styles.border : "#E5E7EB",
+                  ...(selected ? { backgroundColor: styles.bg } : {}),
                 }}
               >
                 <span
                   className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-black transition-colors duration-150"
                   style={{
-                    backgroundColor: selected ? styles.badge : "#2a2a2a",
-                    color: selected ? "#1A1A1A" : "#666",
+                    backgroundColor: selected ? styles.badge : "#E5E7EB",
+                    color: selected ? badgeTextColor : "#9CA3AF",
                   }}
                 >
                   {key}
                 </span>
                 <span
                   className="text-sm leading-relaxed mt-0.5"
-                  style={{ color: selected ? "#f0f0f0" : "#888" }}
+                  style={{ color: selected ? "#1A1A1A" : "#6B7280" }}
                 >
                   {text}
                 </span>
@@ -454,7 +504,7 @@ function StepLead({
       <Question>
         Preencha seus dados para receber o diagnóstico completo
       </Question>
-      <p className="text-sm text-gray-600 -mt-3 mb-6">
+      <p className="text-sm text-gray-500 -mt-3 mb-6">
         Seus dados são usados exclusivamente para envio do relatório
         personalizado.
       </p>
@@ -466,17 +516,17 @@ function StepLead({
           const isFocused = focusedField === field;
 
           const borderColor = hasError
-            ? "#EF4444"
+            ? "#DC2626"
             : isFocused
             ? "#B8CD0F"
-            : "#333";
+            : "#E5E7EB";
 
           return (
             <div key={field}>
-              <label className="block text-xs font-medium text-gray-500 mb-1.5">
+              <label className="block text-xs font-semibold text-gray-600 mb-1.5">
                 {label}{" "}
                 {!required && (
-                  <span className="text-gray-700 font-normal">(opcional)</span>
+                  <span className="text-gray-400 font-normal">(opcional)</span>
                 )}
               </label>
               <input
@@ -496,14 +546,16 @@ function StepLead({
                   setFocusedField(null);
                   if (isWhatsapp) setWhatsappTouched(true);
                 }}
-                className="w-full rounded-lg px-4 py-3 text-sm text-white placeholder-gray-700 outline-none transition-all duration-150"
+                className="w-full rounded-xl px-4 py-3 text-sm placeholder-gray-400 outline-none transition-all duration-150"
                 style={{
-                  backgroundColor: "#252525",
-                  border: `1px solid ${borderColor}`,
+                  backgroundColor: "#FFFFFF",
+                  border: `1.5px solid ${borderColor}`,
+                  color: "#1A1A1A",
+                  boxShadow: isFocused ? "0 0 0 3px rgba(184,205,15,0.15)" : "none",
                 }}
               />
               {hasError && (
-                <p className="text-xs text-red-400 mt-1.5 leading-snug">
+                <p className="text-xs text-red-500 mt-1.5 leading-snug">
                   Informe um número de celular brasileiro válido com DDD (ex: 44
                   99999-9999)
                 </p>
@@ -539,23 +591,23 @@ function StepResults({
     green: {
       label: "Risco Baixo",
       sublabel: "Boa maturidade jurídica identificada na rede.",
-      color: "#B8CD0F",
-      bg: "rgba(184,205,15,0.06)",
-      border: "rgba(184,205,15,0.2)",
+      badgeBg: "#B8CD0F",
+      badgeText: "#1A1A1A",
+      dotColor: "#B8CD0F",
     },
     yellow: {
       label: "Risco Moderado",
       sublabel: "Pontos de atenção que exigem ação em curto prazo.",
-      color: "#F59E0B",
-      bg: "rgba(245,158,11,0.06)",
-      border: "rgba(245,158,11,0.2)",
+      badgeBg: "#EAB308",
+      badgeText: "#1A1A1A",
+      dotColor: "#EAB308",
     },
     red: {
       label: "Risco Alto",
       sublabel: "Exposição a passivos jurídicos significativos.",
-      color: "#EF4444",
-      bg: "rgba(239,68,68,0.06)",
-      border: "rgba(239,68,68,0.2)",
+      badgeBg: "#DC2626",
+      badgeText: "#FFFFFF",
+      dotColor: "#DC2626",
     },
   }[level];
 
@@ -574,26 +626,32 @@ function StepResults({
     <div>
       {/* Score header */}
       <div className="text-center mb-6">
-        <p className="text-xs text-gray-700 uppercase tracking-[0.2em] mb-3">
-          Health Check Jurídico
+        <p
+          className="text-xs font-bold uppercase tracking-[0.2em] mb-3"
+          style={{ color: "#2D2F5B" }}
+        >
+          Diagnóstico de Maturidade Contratual
         </p>
-        <h2 className="text-xl font-bold text-white mb-0.5">{lead.nome}</h2>
-        <p className="text-sm text-gray-600 mb-6">{lead.empresa}</p>
+        <h2 className="text-xl font-bold mb-0.5" style={{ color: "#1A1A1A" }}>
+          {lead.nome}
+        </h2>
+        <p className="text-sm text-gray-500 mb-6">{lead.empresa}</p>
 
+        {/* Score badge */}
         <div
           className="inline-block w-full max-w-xs rounded-2xl px-6 py-6"
-          style={{
-            backgroundColor: LEVEL_CONFIG.bg,
-            border: `2px solid ${LEVEL_CONFIG.border}`,
-          }}
+          style={{ backgroundColor: LEVEL_CONFIG.badgeBg }}
         >
           <div
             className="text-2xl font-black mb-1"
-            style={{ color: LEVEL_CONFIG.color }}
+            style={{ color: LEVEL_CONFIG.badgeText }}
           >
             {LEVEL_CONFIG.label}
           </div>
-          <div className="text-sm text-gray-400 mb-4">
+          <div
+            className="text-sm mb-4 opacity-80"
+            style={{ color: LEVEL_CONFIG.badgeText }}
+          >
             {LEVEL_CONFIG.sublabel}
           </div>
 
@@ -601,17 +659,33 @@ function StepResults({
           <div className="flex justify-center gap-2.5">
             {answers.map((ans, i) => {
               const q = ans ? QUALITY_MAP[ans] : "medium";
-              const color =
+              const dotBg =
                 q === "good"
-                  ? "#B8CD0F"
+                  ? "rgba(0,0,0,0.25)"
                   : q === "medium"
-                  ? "#F59E0B"
-                  : "#EF4444";
+                  ? "rgba(0,0,0,0.35)"
+                  : "rgba(0,0,0,0.5)";
+              const dotBorder =
+                level === "red" ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.2)";
               return (
                 <div
                   key={i}
-                  className="w-2.5 h-2.5 rounded-full"
-                  style={{ backgroundColor: color }}
+                  className="w-3 h-3 rounded-full border"
+                  style={{
+                    backgroundColor:
+                      q === "good"
+                        ? level === "green"
+                          ? "rgba(0,0,0,0.2)"
+                          : QUALITY_STYLES.good.badge
+                        : q === "medium"
+                        ? level === "yellow"
+                          ? "rgba(0,0,0,0.2)"
+                          : QUALITY_STYLES.medium.badge
+                        : level === "red"
+                        ? "rgba(255,255,255,0.35)"
+                        : QUALITY_STYLES.bad.badge,
+                    borderColor: dotBorder,
+                  }}
                   title={`Pilar ${i + 1}`}
                 />
               );
@@ -620,7 +694,7 @@ function StepResults({
         </div>
 
         {badCount > 0 && (
-          <p className="text-xs text-gray-700 mt-3">
+          <p className="text-xs text-gray-400 mt-3">
             {badCount} pilar{badCount > 1 ? "es" : ""} em situação crítica
           </p>
         )}
@@ -631,7 +705,7 @@ function StepResults({
         href={waUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center justify-center gap-3 w-full py-4 px-6 rounded-xl font-bold text-base mb-8 transition-all duration-200 hover:opacity-90 active:scale-[0.98]"
+        className="flex items-center justify-center gap-3 w-full py-4 px-6 rounded-full font-bold text-base mb-8 transition-all duration-200 hover:opacity-90 active:scale-[0.98]"
         style={{ backgroundColor: "#B8CD0F", color: "#1A1A1A" }}
       >
         <WhatsAppIcon size={22} />
@@ -640,7 +714,10 @@ function StepResults({
 
       {/* Per-pilar breakdown */}
       <div className="flex flex-col gap-3 mb-8">
-        <p className="text-xs font-bold uppercase tracking-[0.15em] text-gray-700 mb-1">
+        <p
+          className="text-xs font-bold uppercase tracking-[0.15em] mb-1"
+          style={{ color: "#2D2F5B" }}
+        >
           Análise por pilar
         </p>
         {PILARES.map((pilar, idx) => {
@@ -651,27 +728,31 @@ function StepResults({
           return (
             <div
               key={pilar.numero}
-              className="rounded-xl p-5"
+              className="rounded-xl p-5 bg-white"
               style={{
-                backgroundColor: styles.bg,
-                border: `1px solid ${styles.border}35`,
+                borderLeft: `4px solid ${styles.border}`,
+                boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
               }}
             >
               <div className="flex items-start justify-between gap-3 mb-2">
-                <span className="text-xs font-bold text-gray-600 uppercase tracking-wide">
+                <span
+                  className="text-xs font-bold uppercase tracking-wide"
+                  style={{ color: "#2D2F5B" }}
+                >
                   Pilar {pilar.numero} · {pilar.titulo}
                 </span>
                 <span
-                  className="flex-shrink-0 text-xs font-black px-2 py-0.5 rounded"
+                  className="flex-shrink-0 text-xs font-black px-2 py-0.5 rounded-full"
                   style={{
-                    backgroundColor: styles.badge + "22",
+                    backgroundColor: styles.bg,
                     color: styles.badge,
+                    border: `1px solid ${styles.border}40`,
                   }}
                 >
                   {styles.label}
                 </span>
               </div>
-              <p className="text-sm text-gray-300 leading-relaxed">
+              <p className="text-sm text-gray-600 leading-relaxed">
                 {pilar.recomendacoes[answer]}
               </p>
             </div>
@@ -683,18 +764,19 @@ function StepResults({
       <div
         className="rounded-2xl p-7 text-center"
         style={{
-          backgroundColor: "rgba(184,205,15,0.04)",
-          border: "1px solid rgba(184,205,15,0.18)",
+          backgroundColor: "#2D2F5B",
+          backgroundImage: "url(/fundo_ondas-01.png)",
+          backgroundSize: "cover",
+          backgroundBlendMode: "soft-light",
         }}
       >
-        <div
-          className="w-8 h-0.5 mx-auto mb-5"
-          style={{ backgroundColor: "#B8CD0F" }}
-        />
         <h3 className="text-lg font-bold text-white mb-2">
           Pronto para blindar sua rede?
         </h3>
-        <p className="text-sm text-gray-500 mb-6 max-w-xs mx-auto leading-relaxed">
+        <p
+          className="text-sm mb-6 max-w-xs mx-auto leading-relaxed"
+          style={{ color: "rgba(255,255,255,0.65)" }}
+        >
           Nossos especialistas estruturam um plano de ação personalizado para o
           seu modelo de negócio.
         </p>
@@ -702,13 +784,16 @@ function StepResults({
           href={waUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 py-3.5 px-8 rounded-lg font-bold text-sm transition-all duration-200 hover:opacity-90 active:scale-[0.98]"
+          className="inline-flex items-center gap-2 py-3.5 px-8 rounded-full font-bold text-sm transition-all duration-200 hover:opacity-90 active:scale-[0.98]"
           style={{ backgroundColor: "#B8CD0F", color: "#1A1A1A" }}
         >
           <WhatsAppIcon size={16} />
           Fale com um especialista
         </a>
-        <p className="text-xs text-gray-800 mt-5">
+        <p
+          className="text-xs mt-5"
+          style={{ color: "rgba(255,255,255,0.3)" }}
+        >
           Diagnóstico confidencial · Protegido por LGPD
         </p>
       </div>
@@ -786,67 +871,64 @@ export default function HealthCheckForm() {
 
   return (
     <div
-      className="min-h-screen py-10 px-4 flex flex-col items-center justify-center"
-      style={{ backgroundColor: "#1A1A1A" }}
+      className="min-h-screen"
+      style={{ backgroundColor: "#EEF0F5", fontFamily: "Arial, Helvetica, sans-serif" }}
     >
-      {/* Top label */}
-      {step < 7 && (
-        <div className="w-full max-w-lg mb-5 flex items-center justify-between">
-          <span className="text-xs font-bold uppercase tracking-[0.25em] text-gray-700">
-            Health Check Jurídico
-          </span>
-          <div
-            className="w-5 h-px"
-            style={{ backgroundColor: "#B8CD0F" }}
-          />
-        </div>
-      )}
+      <Header />
+      <Footer />
 
-      {/* Card */}
-      <div
-        className="w-full max-w-lg rounded-2xl border"
-        style={{ backgroundColor: "#1e1e1e", borderColor: "#272727" }}
-      >
-        <div className="p-6 sm:p-8">
-          {step < 7 && <ProgressBar current={step + 1} total={7} />}
+      {/* Main scrollable area — padded to clear fixed header/footer */}
+      <div className="min-h-screen pt-16 pb-12 px-4 flex flex-col items-center justify-center">
+        {/* Step label above card (form steps only) */}
+        {step < 7 && (
+          <p
+            className="text-xs font-semibold uppercase tracking-[0.2em] mb-4 text-center"
+            style={{ color: "#2D2F5B" }}
+          >
+            Diagnóstico de Maturidade Contratual
+          </p>
+        )}
 
-          {step === 0 && (
-            <StepContext
-              value={context}
-              onChange={setContext}
-              onNext={() => setStep(1)}
-            />
-          )}
+        {/* Card */}
+        <div
+          className="w-full max-w-lg rounded-2xl bg-white"
+          style={{ boxShadow: "0 4px 24px rgba(45,47,91,0.12)" }}
+        >
+          <div className="p-6 sm:p-8">
+            {step < 7 && <ProgressBar current={step + 1} total={7} />}
 
-          {step >= 1 && step <= 5 && (
-            <StepPilar
-              pilarIndex={step - 1}
-              answer={answers[step - 1]}
-              onChange={(v) => setAnswer(step - 1, v)}
-              onNext={() => setStep(step + 1)}
-              onBack={() => setStep(step - 1)}
-            />
-          )}
+            {step === 0 && (
+              <StepContext
+                value={context}
+                onChange={setContext}
+                onNext={() => setStep(1)}
+              />
+            )}
 
-          {step === 6 && (
-            <StepLead
-              lead={lead}
-              onChange={updateLead}
-              onNext={handleLeadNext}
-              onBack={() => setStep(5)}
-              isSaving={isSaving}
-            />
-          )}
+            {step >= 1 && step <= 5 && (
+              <StepPilar
+                pilarIndex={step - 1}
+                answer={answers[step - 1]}
+                onChange={(v) => setAnswer(step - 1, v)}
+                onNext={() => setStep(step + 1)}
+                onBack={() => setStep(step - 1)}
+              />
+            )}
 
-          {step === 7 && <StepResults answers={answers} lead={lead} />}
+            {step === 6 && (
+              <StepLead
+                lead={lead}
+                onChange={updateLead}
+                onNext={handleLeadNext}
+                onBack={() => setStep(5)}
+                isSaving={isSaving}
+              />
+            )}
+
+            {step === 7 && <StepResults answers={answers} lead={lead} />}
+          </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <p className="text-xs text-gray-800 mt-6 text-center">
-        © {new Date().getFullYear()} · Diagnóstico de uso exclusivamente
-        orientativo
-      </p>
     </div>
   );
 }

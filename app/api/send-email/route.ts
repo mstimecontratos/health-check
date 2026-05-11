@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 // Configure this sender address after verifying your domain in Resend.
 // https://resend.com/domains
-const FROM = "Moreira Suzuki Advogados <diagnostico@moreirasuzu ki.adv.br>";
+const FROM = "Moreira Suzuki Advogados <diagnostico@moreirasuzu ki.adv.br>"; // replace with verified Resend domain
 
 type PilarAnswer = "A" | "B" | "C";
 
