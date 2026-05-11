@@ -154,6 +154,30 @@ function getScoreLevel(
   return "red";
 }
 
+// Strips country code (+55) and all non-digit characters.
+function stripPhone(value: string): string {
+  return value.replace(/^\+?55[\s-]?/, "").replace(/\D/g, "");
+}
+
+// Formats a raw input string as (XX) XXXXX-XXXX as the user types.
+function formatPhone(raw: string): string {
+  const digits = stripPhone(raw).slice(0, 11);
+  if (digits.length === 0) return "";
+  if (digits.length <= 2) return `(${digits}`;
+  if (digits.length <= 7)
+    return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
+  return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+}
+
+// Returns true only for valid Brazilian mobile numbers (11 digits, DDD 11–99, 9th digit = 9).
+function validatePhone(value: string): boolean {
+  const digits = stripPhone(value);
+  if (digits.length !== 11) return false;
+  const ddd = parseInt(digits.slice(0, 2), 10);
+  if (ddd < 11 || ddd > 99) return false;
+  return digits[2] === "9";
+}
+
 // ─── Primitives ───────────────────────────────────────────────────────────────
 
 function ProgressBar({ current, total }: { current: number; total: number }) {
@@ -388,17 +412,26 @@ function StepLead({
   onChange,
   onNext,
   onBack,
+  isSaving = false,
 }: {
   lead: LeadData;
   onChange: (field: keyof LeadData, value: string) => void;
   onNext: () => void;
   onBack: () => void;
+  isSaving?: boolean;
 }) {
+  const [whatsappTouched, setWhatsappTouched] = useState(false);
+  const [focusedField, setFocusedField] = useState<keyof LeadData | null>(null);
+
+  const whatsappValid = validatePhone(lead.whatsapp);
+  const showWhatsappError =
+    whatsappTouched && !whatsappValid && lead.whatsapp.length > 0;
+
   const isValid = !!(
     lead.nome &&
     lead.empresa &&
     lead.email &&
-    lead.whatsapp
+    whatsappValid
   );
 
   return (
@@ -413,37 +446,64 @@ function StepLead({
       </p>
 
       <div className="flex flex-col gap-4">
-        {LEAD_FIELDS.map(({ field, label, placeholder, type, required }) => (
-          <div key={field}>
-            <label className="block text-xs font-medium text-gray-500 mb-1.5">
-              {label}{" "}
-              {!required && (
-                <span className="text-gray-700 font-normal">(opcional)</span>
+        {LEAD_FIELDS.map(({ field, label, placeholder, type, required }) => {
+          const isWhatsapp = field === "whatsapp";
+          const hasError = isWhatsapp && showWhatsappError;
+          const isFocused = focusedField === field;
+
+          const borderColor = hasError
+            ? "#EF4444"
+            : isFocused
+            ? "#B8CD0F"
+            : "#333";
+
+          return (
+            <div key={field}>
+              <label className="block text-xs font-medium text-gray-500 mb-1.5">
+                {label}{" "}
+                {!required && (
+                  <span className="text-gray-700 font-normal">(opcional)</span>
+                )}
+              </label>
+              <input
+                type={type}
+                placeholder={placeholder}
+                value={lead[field]}
+                inputMode={isWhatsapp ? "tel" : undefined}
+                onChange={(e) => {
+                  if (isWhatsapp) {
+                    onChange(field, formatPhone(e.target.value));
+                  } else {
+                    onChange(field, e.target.value);
+                  }
+                }}
+                onFocus={() => setFocusedField(field)}
+                onBlur={() => {
+                  setFocusedField(null);
+                  if (isWhatsapp) setWhatsappTouched(true);
+                }}
+                className="w-full rounded-lg px-4 py-3 text-sm text-white placeholder-gray-700 outline-none transition-all duration-150"
+                style={{
+                  backgroundColor: "#252525",
+                  border: `1px solid ${borderColor}`,
+                }}
+              />
+              {hasError && (
+                <p className="text-xs text-red-400 mt-1.5 leading-snug">
+                  Informe um número de celular brasileiro válido com DDD (ex: 44
+                  99999-9999)
+                </p>
               )}
-            </label>
-            <input
-              type={type}
-              placeholder={placeholder}
-              value={lead[field]}
-              onChange={(e) => onChange(field, e.target.value)}
-              className="w-full rounded-lg px-4 py-3 text-sm text-white placeholder-gray-700 outline-none transition-all duration-150"
-              style={{ backgroundColor: "#252525", border: "1px solid #333" }}
-              onFocus={(e) => {
-                e.currentTarget.style.borderColor = "#B8CD0F";
-              }}
-              onBlur={(e) => {
-                e.currentTarget.style.borderColor = "#333";
-              }}
-            />
-          </div>
-        ))}
+            </div>
+          );
+        })}
       </div>
 
       <NavButtons
         onBack={onBack}
         onNext={onNext}
-        nextDisabled={!isValid}
-        nextLabel="Ver diagnóstico →"
+        nextDisabled={!isValid || isSaving}
+        nextLabel={isSaving ? "Salvando..." : "Ver diagnóstico →"}
       />
     </div>
   );
@@ -614,6 +674,12 @@ function StepResults({
 
 // ─── Root component ───────────────────────────────────────────────────────────
 
+const SCORE_PT: Record<"green" | "yellow" | "red", string> = {
+  green: "verde",
+  yellow: "amarelo",
+  red: "vermelho",
+};
+
 export default function HealthCheckForm() {
   const [step, setStep] = useState(0);
   const [context, setContext] = useState<ContextOption | null>(null);
@@ -627,6 +693,7 @@ export default function HealthCheckForm() {
     whatsapp: "",
     contratos: "",
   });
+  const [isSaving, setIsSaving] = useState(false);
 
   const setAnswer = (idx: number, val: PilarAnswer) => {
     setAnswers((prev) => {
@@ -638,6 +705,34 @@ export default function HealthCheckForm() {
 
   const updateLead = (field: keyof LeadData, value: string) => {
     setLead((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleLeadNext = async () => {
+    setIsSaving(true);
+    try {
+      await fetch("/api/save-lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nome: lead.nome,
+          empresa: lead.empresa,
+          email: lead.email,
+          whatsapp: stripPhone(lead.whatsapp),
+          num_contratos: lead.contratos || null,
+          modelo_expansao: context,
+          score_geral: SCORE_PT[getScoreLevel(answers)],
+          p1_resposta: answers[0],
+          p2_resposta: answers[1],
+          p3_resposta: answers[2],
+          p4_resposta: answers[3],
+          p5_resposta: answers[4],
+        }),
+      });
+    } catch {
+      // Fail silently — never block the user from seeing results
+    }
+    setIsSaving(false);
+    setStep(7);
   };
 
   return (
@@ -688,8 +783,9 @@ export default function HealthCheckForm() {
             <StepLead
               lead={lead}
               onChange={updateLead}
-              onNext={() => setStep(7)}
+              onNext={handleLeadNext}
               onBack={() => setStep(5)}
+              isSaving={isSaving}
             />
           )}
 
