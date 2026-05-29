@@ -185,14 +185,13 @@ function Header() {
       className="fixed top-0 left-0 right-0 z-50 h-16"
       style={{ backgroundColor: "#2D2F5B" }}
     >
-      {/* Wave texture overlay — place fundo_ondas-01.png in /public */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: "url(/fundo_ondas-01.png)",
+          backgroundImage: "url(/fundo_ondas_gradiente-01.png)",
           backgroundSize: "cover",
-          backgroundPosition: "center",
-          opacity: 0.18,
+          backgroundPosition: "left center",
+          opacity: 0.30,
         }}
       />
       <div className="relative h-full max-w-3xl mx-auto px-6 flex items-center">
@@ -773,8 +772,9 @@ function StepResults({
         className="rounded-2xl p-7 text-center"
         style={{
           backgroundColor: "#2D2F5B",
-          backgroundImage: "url(/fundo_ondas-01.png)",
+          backgroundImage: "url(/fundo_ondas_gradiente-01.png)",
           backgroundSize: "cover",
+          backgroundPosition: "left center",
           backgroundBlendMode: "soft-light",
         }}
       >
@@ -882,7 +882,7 @@ export default function HealthCheckForm() {
   return (
     <div
       className="min-h-screen"
-      style={{ backgroundColor: "#EEF0F5", fontFamily: "Arial, Helvetica, sans-serif" }}
+      style={{ backgroundColor: "#FFFFFF", fontFamily: "'Barlow', Arial, sans-serif" }}
     >
       <Header />
       <Footer />
@@ -902,7 +902,10 @@ export default function HealthCheckForm() {
         {/* Card */}
         <div
           className="w-full max-w-lg rounded-2xl bg-white"
-          style={{ boxShadow: "0 4px 24px rgba(45,47,91,0.12)" }}
+          style={{
+            boxShadow: "0 4px 24px rgba(45,47,91,0.12)",
+            borderTop: "3px solid #B8CD0F",
+          }}
         >
           <div className="p-6 sm:p-8">
             {step < 7 && <ProgressBar current={step + 1} total={7} />}
