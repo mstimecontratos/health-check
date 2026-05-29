@@ -23,7 +23,7 @@ body::before {
   background-position: center;
   opacity: 0.12;
   pointer-events: none;
-  z-index: 0;
+  z-index: -1;
 }
 
 #__next,

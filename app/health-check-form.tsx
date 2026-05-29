@@ -200,7 +200,7 @@ function Header() {
         <img
           src="/logo_horizontal_em_branco-01.png"
           alt="Moreira Suzuki Advogados"
-          className="h-9 w-auto object-contain"
+          className="h-12 w-auto object-contain"
         />
       </div>
     </header>
@@ -211,10 +211,19 @@ function Footer() {
   return (
     <footer
       className="fixed bottom-0 left-0 right-0 z-50 py-3 px-4"
-      style={{ backgroundColor: "#2D2F5B" }}
+      style={{ backgroundColor: "#2D2F5B", position: "relative" }}
     >
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: "url(/fundo_ondas_gradiente-01.png)",
+          backgroundSize: "cover",
+          backgroundPosition: "left center",
+          opacity: 0.30,
+        }}
+      />
       <p
-        className="text-center text-xs"
+        className="relative text-center text-xs"
         style={{ color: "rgba(255,255,255,0.45)" }}
       >
         © 2026 Desenvolvido por Moreira Suzuki Advocacia para Negócios ·{" "}
