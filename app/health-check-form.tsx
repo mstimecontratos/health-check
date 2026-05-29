@@ -44,9 +44,9 @@ const PILARES = [
       C: "Não temos controle centralizado das assinaturas.",
     },
     recomendacoes: {
-      A: "Sua rede está bem protegida contra contestações de autenticidade. Mantenha auditorias regulares e certifique-se de que a plataforma utilizada possui certificação ICP-Brasil.",
-      B: "Contratos físicos ou informais representam risco jurídico relevante. Priorize a migração para assinaturas digitais auditáveis — o processo pode ser gradual, começando pelos contratos de maior valor.",
-      C: "Risco crítico. A ausência de controle centralizado expõe toda a rede a litígios sobre validade contratual. A implantação de uma plataforma de gestão documental deve ser tratada como prioridade imediata.",
+      A: "Sua rede tem lastro documental sólido. Isso é o que define se você consegue fazer valer um contrato quando precisar. Contudo, mantenha auditorias periódicas: o risco nesse estágio não é a ausência de documentação, é ela ficar desatualizada sem que ninguém perceba.",
+      B: "Parte da sua rede ainda opera no informal ou no físico. Isso funciona enquanto as relações estão bem, mas o problema aparece quando uma parceria termina mal e você precisa provar o que foi acordado. Contratos sem trilha de auditoria são os primeiros a serem contestados e virarem passivo.",
+      C: "Sem controle centralizado de assinaturas, você não tem certeza sobre o que está vigente, o que foi assinado e o que ficou em aberto. Esse vazio documental não é um risco futuro — ele já existe hoje, em cada contrato da sua rede que não tem lastro rastreável.",
     },
   },
   {
@@ -60,9 +60,9 @@ const PILARES = [
       C: "Não utilizamos termos de quitação específicos na saída.",
     },
     recomendacoes: {
-      A: "Excelente. Seu fluxo de exit protege a empresa contra reivindicações retroativas. Certifique-se de que as quitações são abrangentes e cobrem todas as verbas aplicáveis à relação.",
-      B: "A coleta inconsistente de quitações cria janelas de vulnerabilidade. Cada saída sem termo assinado é um passivo em aberto. Estruture um checklist de offboarding com quitação como etapa obrigatória e bloqueante.",
-      C: "Risco alto. Sem termos de quitação, cada desligamento representa potencial passivo judicial. Implante imediatamente um fluxo de exit com quitação formal — inclusive retroativamente para parcerias recentes encerradas.",
+      A: "Você tem um dos processos mais negligenciados em redes bem geridas funcionando corretamente. Uma saída bem documentada é o que separa um desligamento limpo de um litígio iminente. Contudo, certifique-se de que as quitações cobrem todas as verbas da relação, porque uma quitação genérica pode não ser suficiente.",
+      B: "Cada parceria encerrada sem quitação é um passivo em aberto com prazo de prescrição. Você provavelmente já tem alguns acumulados, só não sabe exatamente quantos.",
+      C: "Sem termos de quitação, o término de um contrato não encerra nada juridicamente. O ex-parceiro mantém aberta a possibilidade de reivindicar verbas da relação enquanto o prazo prescricional não esgotar. Quanto maior a rede e mais antigos os desligamentos, maior o passivo acumulado que você não consegue dimensionar.",
     },
   },
   {
@@ -76,14 +76,14 @@ const PILARES = [
       C: "Utilizamos o mesmo padrão há anos sem revisão profunda.",
     },
     recomendacoes: {
-      A: "Ótimo. Minutas alinhadas à jurisprudência vigente minimizam o risco de cláusulas consideradas abusivas ou ineficazes em litígios. Mantenha o ciclo anual de revisão.",
-      B: "Com mais de 18 meses sem revisão, suas minutas podem não refletir precedentes relevantes do STJ. Agende uma revisão com advogado especialista nos próximos 60 dias.",
-      C: "Risco alto. Minutas desatualizadas são o principal vetor de decisões adversas. Uma revisão profunda com especialista em sua área de atuação é indispensável e urgente.",
+      A: "Minutas atualizadas são a diferença entre uma cláusula que funciona no tribunal e uma que o juiz simplesmente ignora. Contudo, o risco é a falsa sensação de segurança. Mantenha o ciclo de revisão e não deixe a lei e os tribunais andarem mais rápido do que seus contratos.",
+      B: "Com meses sem revisão profunda, suas minutas podem ter cláusulas que os tribunais já sinalizaram como problemáticas. Isso não significa que estão erradas — significa que você não sabe se estão. E descobrir em meio a um litígio é o pior momento possível para obter essa informação.",
+      C: "Um contrato que não reflete um entendimento atual não protege quem o assinou; só dá a aparência de proteção. Quando testado judicialmente, cláusulas desatualizadas tendem a ser afastadas exatamente no ponto em que você mais precisaria delas. Quanto mais antiga a minuta, maior a distância entre o que o contrato diz e o que o juiz vai aplicar.",
     },
   },
   {
     numero: 4,
-    titulo: "Gestão de Evidências",
+    titulo: "Governança e Gestão de Evidências",
     pergunta:
       "A empresa possui processos que comprovam documentalmente a autonomia do parceiro, afastando riscos de subordinação?",
     opcoes: {
@@ -92,9 +92,9 @@ const PILARES = [
       C: "Há um nível alto de controle diário sobre os parceiros.",
     },
     recomendacoes: {
-      A: "Excelente. A documentação ativa de autonomia é a principal defesa contra reconhecimento de vínculo empregatício. Mantenha as auditorias e registre evidências de múltiplos clientes, liberdade de horário e ausência de subordinação.",
-      B: "O texto contratual sozinho é insuficiente perante a Justiça do Trabalho. Evidências práticas da relação — como ausência de exclusividade, liberdade de horário e múltiplos clientes — precisam ser documentadas sistematicamente.",
-      C: "Risco crítico. Alto controle operacional sobre parceiros é o principal argumento para reconhecimento de vínculo empregatício. Reestruture urgentemente os processos de supervisão e crie distância operacional documentada.",
+      A: "Sua empresa documenta ativamente a natureza da relação com os parceiros — fator importante para ganhar seus processos. O risco nesse estágio é os processos do dia a dia derivarem do que está documentado sem que ninguém note. Revise periodicamente se a prática ainda reflete o modelo contratado.",
+      B: "Em disputas judiciais — trabalhistas, comerciais ou regulatórias — o que prevalece não é apenas como a relação foi praticada, mas também como ela foi redigida. Confiar apenas no contrato escrito significa que, se a relação for questionada, você vai provar sua posição com o que tem registrado na prática. Vale a pena saber o que isso é antes que alguém pergunte.",
+      C: "Quando há controle operacional intenso sem documentação que delimite e justifique esse controle, a relação fica exposta a requalificação judicial. As consequências variam por modelo de negócio, mas, em todos os casos, representam passivo relevante. Quanto mais antiga a relação e maior a rede, maior o risco acumulado.",
     },
   },
   {
@@ -108,9 +108,9 @@ const PILARES = [
       C: "Não temos essa métrica calculada.",
     },
     recomendacoes: {
-      A: "Excelente gestão de risco financeiro. O provisionamento adequado protege o P&L e permite decisões estratégicas informadas sobre crescimento e composição da rede.",
-      B: "Uma estimativa vaga não é suficiente para gestão de risco real. Formalize o cálculo com parâmetros reais (verbas rescisórias, honorários, provisões) e crie uma reserva proporcional.",
-      C: "Risco alto. Sem esta métrica, uma rescisão em massa pode comprometer seriamente a saúde financeira da operação. Realize este cálculo como prioridade — idealmente com suporte jurídico-financeiro especializado.",
+      A: "Você tem visibilidade sobre um risco que a maioria das empresas só descobre quando já está dentro dele. O provisionamento adequado não é só gestão financeira, como também é o que permite tomar decisões de crescimento e composição de rede sem surpresas que comprometam o P&L.",
+      B: "Uma estimativa vaga funciona até o momento em que você precisa do número real para tomar uma decisão. Rescisões em massa não avisam com antecedência, e o custo real costuma ser significativamente maior do que a estimativa inicial quando se contabilizam verbas, despesas, honorários, tempo e o impacto operacional juntos.",
+      C: "Sem essa métrica, você está gerindo o principal risco financeiro da sua rede sem saber o tamanho dele. Não é uma questão de probabilidade, mas sim de quando esse número vai aparecer e se você vai estar preparado para absorvê-lo ou não.",
     },
   },
 ];
