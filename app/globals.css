@@ -21,7 +21,13 @@ body::before {
   background-image: url(/fundo_ondas-01.png);
   background-size: cover;
   background-position: center;
-  opacity: 0.06;
+  opacity: 0.12;
   pointer-events: none;
   z-index: 0;
+}
+
+#__next,
+[data-nextjs-scroll-focus-boundary] {
+  position: relative;
+  z-index: 1;
 }

@@ -882,7 +882,7 @@ export default function HealthCheckForm() {
   return (
     <div
       className="min-h-screen"
-      style={{ backgroundColor: "#FFFFFF", fontFamily: "'Barlow', Arial, sans-serif" }}
+      style={{ fontFamily: "'Barlow', Arial, sans-serif" }}
     >
       <Header />
       <Footer />
