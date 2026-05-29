@@ -846,11 +846,11 @@ export default function HealthCheckForm() {
       num_contratos: lead.contratos || null,
       modelo_expansao: context,
       score_geral: SCORE_PT[getScoreLevel(answers)],
-      p1_resposta: answers[0],
-      p2_resposta: answers[1],
-      p3_resposta: answers[2],
-      p4_resposta: answers[3],
-      p5_resposta: answers[4],
+      p1_resposta: answers[0] ? PILARES[0].opcoes[answers[0]] : null,
+      p2_resposta: answers[1] ? PILARES[1].opcoes[answers[1]] : null,
+      p3_resposta: answers[2] ? PILARES[2].opcoes[answers[2]] : null,
+      p4_resposta: answers[3] ? PILARES[3].opcoes[answers[3]] : null,
+      p5_resposta: answers[4] ? PILARES[4].opcoes[answers[4]] : null,
     };
     const opts: RequestInit = {
       method: "POST",
