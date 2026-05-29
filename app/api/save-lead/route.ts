@@ -49,6 +49,22 @@ export async function POST(request: NextRequest) {
       )
     `;
 
+    // Fire-and-forget webhook to Make — failures are swallowed so the user
+    // always gets a success response even if the webhook is unreachable.
+    if (process.env.MAKE_WEBHOOK_URL) {
+      fetch(process.env.MAKE_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: null, // Neon não retorna o id no insert atual
+          created_at: new Date().toISOString(),
+          nome, empresa, cargo, email, whatsapp,
+          num_contratos, modelo_expansao, score_geral,
+          p1_resposta, p2_resposta, p3_resposta, p4_resposta, p5_resposta,
+        }),
+      }).catch((err) => console.error("[save-lead] Make webhook failed:", err));
+    }
+
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("[save-lead] DB insert failed:", error);
