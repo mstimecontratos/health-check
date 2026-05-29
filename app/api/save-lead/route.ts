@@ -13,6 +13,7 @@ export async function POST(request: NextRequest) {
   const {
     nome,
     empresa,
+    cargo,
     email,
     whatsapp,
     num_contratos,
@@ -37,11 +38,11 @@ export async function POST(request: NextRequest) {
   try {
     await sql`
       INSERT INTO leads (
-        nome, empresa, email, whatsapp, num_contratos,
+        nome, empresa, cargo, email, whatsapp, num_contratos,
         modelo_expansao, score_geral,
         p1_resposta, p2_resposta, p3_resposta, p4_resposta, p5_resposta
       ) VALUES (
-        ${nome}, ${empresa}, ${email}, ${whatsapp}, ${num_contratos ?? null},
+        ${nome}, ${empresa}, ${cargo ?? null}, ${email}, ${whatsapp}, ${num_contratos ?? null},
         ${modelo_expansao ?? null}, ${score_geral ?? null},
         ${p1_resposta ?? null}, ${p2_resposta ?? null},
         ${p3_resposta ?? null}, ${p4_resposta ?? null}, ${p5_resposta ?? null}

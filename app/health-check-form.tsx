@@ -16,6 +16,7 @@ type PilarAnswer = "A" | "B" | "C";
 interface LeadData {
   nome: string;
   empresa: string;
+  cargo: string;
   email: string;
   whatsapp: string;
   contratos: string;
@@ -449,6 +450,13 @@ const LEAD_FIELDS: {
     required: true,
   },
   {
+    field: "cargo",
+    label: "Cargo",
+    placeholder: "Ex: Diretor Comercial, CEO, Sócio",
+    type: "text",
+    required: false,
+  },
+  {
     field: "email",
     label: "E-mail corporativo",
     placeholder: "voce@empresa.com.br",
@@ -818,6 +826,7 @@ export default function HealthCheckForm() {
   const [lead, setLead] = useState<LeadData>({
     nome: "",
     empresa: "",
+    cargo: "",
     email: "",
     whatsapp: "",
     contratos: "",
@@ -843,6 +852,7 @@ export default function HealthCheckForm() {
       empresa: lead.empresa,
       email: lead.email,
       whatsapp: stripPhone(lead.whatsapp),
+      cargo: lead.cargo || null,
       num_contratos: lead.contratos || null,
       modelo_expansao: context,
       score_geral: SCORE_PT[getScoreLevel(answers)],

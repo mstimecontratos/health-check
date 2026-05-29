@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS leads (
   empresa         TEXT NOT NULL,
   email           TEXT NOT NULL,
   whatsapp        TEXT NOT NULL,
+  cargo           TEXT,
   num_contratos   TEXT,
   modelo_expansao TEXT,
   score_geral     TEXT,
