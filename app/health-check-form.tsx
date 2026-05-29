@@ -182,7 +182,7 @@ function validatePhone(value: string): boolean {
 function Header() {
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 h-16"
+      className="fixed top-0 left-0 right-0 z-50 h-24"
       style={{ backgroundColor: "#2D2F5B" }}
     >
       <div
@@ -200,7 +200,7 @@ function Header() {
         <img
           src="/logo_horizontal_em_branco-01.png"
           alt="Moreira Suzuki Advogados"
-          className="h-12 w-auto object-contain"
+          className="h-14 w-auto object-contain"
         />
       </div>
     </header>
@@ -211,7 +211,7 @@ function Footer() {
   return (
     <footer
       className="fixed bottom-0 left-0 right-0 z-50 py-3 px-4"
-      style={{ backgroundColor: "#2D2F5B", position: "relative" }}
+      style={{ backgroundColor: "#2D2F5B" }}
     >
       <div
         className="absolute inset-0 pointer-events-none"
@@ -897,7 +897,7 @@ export default function HealthCheckForm() {
       <Footer />
 
       {/* Main scrollable area — padded to clear fixed header/footer */}
-      <div className="min-h-screen pt-16 pb-12 px-4 flex flex-col items-center justify-center">
+      <div className="min-h-screen pt-24 pb-12 px-4 flex flex-col items-center justify-center">
         {/* Step label above card (form steps only) */}
         {step < 7 && (
           <p
