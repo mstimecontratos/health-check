@@ -199,7 +199,7 @@ function Header() {
         <img
           src="/logo_horizontal_em_branco-01.png"
           alt="Moreira Suzuki Advogados"
-          className="h-16 w-auto object-contain"
+          className="h-20 w-auto object-contain"
         />
       </div>
     </header>
@@ -891,10 +891,9 @@ export default function HealthCheckForm() {
       style={{ fontFamily: "'Barlow', Arial, sans-serif" }}
     >
       <Header />
-      <Footer />
 
       {/* Main scrollable area — padded to clear fixed header */}
-      <div className="min-h-screen pt-24 pb-0 px-4 flex flex-col items-center justify-center">
+      <div className="min-h-screen pt-20 pb-12 px-4 flex flex-col items-center justify-center">
 
         {/* Progress bar — outside card, full width of card */}
         {step < 7 && (
@@ -959,6 +958,8 @@ export default function HealthCheckForm() {
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }
