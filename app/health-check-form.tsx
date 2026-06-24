@@ -197,7 +197,7 @@ function Header() {
       <div className="relative h-full max-w-3xl mx-auto px-8 flex items-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/logo_horizontal_em_branco-01.png"
+          src="/logo_ms_horizontal.png"
           alt="Moreira Suzuki Advogados"
           className="h-20 w-auto object-contain"
         />
