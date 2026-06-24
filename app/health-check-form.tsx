@@ -182,7 +182,7 @@ function validatePhone(value: string): boolean {
 function Header() {
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 h-20"
+      className="fixed top-0 left-0 right-0 z-50 h-24"
       style={{ backgroundColor: "#2D2F5B" }}
     >
       <div
@@ -194,13 +194,12 @@ function Header() {
           opacity: 0.30,
         }}
       />
-      <div className="relative h-full max-w-3xl mx-auto px-6 flex items-center">
-        {/* Place logo_horizontal_em_branco-01.png in /public */}
+      <div className="relative h-full max-w-3xl mx-auto px-8 flex items-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/logo-moreirasuzuki-fnd-trsn.png"
+          src="/logo_horizontal_em_branco-01.png"
           alt="Moreira Suzuki Advogados"
-          className="h-11 w-auto object-contain"
+          className="h-16 w-auto object-contain"
         />
       </div>
     </header>
@@ -210,8 +209,8 @@ function Header() {
 function Footer() {
   return (
     <footer
-      className="fixed bottom-0 left-0 right-0 z-50 py-3 px-4"
-      style={{ backgroundColor: "#2D2F5B" }}
+      className="w-full mt-16 py-5 px-4"
+      style={{ backgroundColor: "#2D2F5B", position: "relative" }}
     >
       <div
         className="absolute inset-0 pointer-events-none"
@@ -252,16 +251,14 @@ function WhatsAppIcon({ size = 20 }: { size?: number }) {
 function ProgressBar({ current, total }: { current: number; total: number }) {
   const pct = Math.round((current / total) * 100);
   return (
-    <div className="mb-8">
-      <div className="flex justify-between text-xs font-medium text-gray-400 mb-2">
-        <span>
-          Etapa {current} de {total}
-        </span>
+    <div className="w-full max-w-md mx-auto mb-4 px-1">
+      <div className="flex justify-between text-xs font-semibold mb-2" style={{ color: "#2D2F5B" }}>
+        <span>Etapa {current} de {total}</span>
         <span>{pct}%</span>
       </div>
-      <div className="w-full bg-gray-100 rounded-full h-1">
+      <div className="w-full rounded-full h-1.5" style={{ backgroundColor: "rgba(45,47,91,0.12)" }}>
         <div
-          className="h-1 rounded-full transition-all duration-500 ease-out"
+          className="h-1.5 rounded-full transition-all duration-500 ease-out"
           style={{ width: `${pct}%`, backgroundColor: "#B8CD0F" }}
         />
       </div>
@@ -309,7 +306,7 @@ function NavButtons({
       {showBack && onBack && (
         <button
           onClick={onBack}
-          className="flex-1 py-3 rounded-full font-bold text-sm border border-gray-200 text-gray-500 hover:bg-gray-50 transition-all duration-200"
+          className="flex-1 py-4 rounded-full font-bold text-base border-2 border-gray-200 text-gray-500 hover:bg-gray-50 transition-all duration-200"
         >
           ← Voltar
         </button>
@@ -317,7 +314,7 @@ function NavButtons({
       <button
         onClick={onNext}
         disabled={nextDisabled}
-        className="flex-1 py-3.5 rounded-full font-bold text-sm transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed hover:opacity-90 active:scale-[0.98]"
+        className="flex-1 py-4 rounded-full font-bold text-base transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed hover:opacity-90 active:scale-[0.98]"
         style={{ backgroundColor: "#B8CD0F", color: "#1A1A1A" }}
       >
         {nextLabel}
@@ -896,8 +893,15 @@ export default function HealthCheckForm() {
       <Header />
       <Footer />
 
-      {/* Main scrollable area — padded to clear fixed header/footer */}
-      <div className="min-h-screen pt-20 pb-16 px-4 flex flex-col items-center justify-center">
+      {/* Main scrollable area — padded to clear fixed header */}
+      <div className="min-h-screen pt-24 pb-0 px-4 flex flex-col items-center justify-center">
+
+        {/* Progress bar — outside card, full width of card */}
+        {step < 7 && (
+          <div className="w-full max-w-md mb-3">
+            <ProgressBar current={step + 1} total={7} />
+          </div>
+        )}
 
         {/* Card */}
         <div
@@ -922,7 +926,6 @@ export default function HealthCheckForm() {
             </div>
           )}
           <div className="p-6 sm:p-7">
-            {step < 7 && <ProgressBar current={step + 1} total={7} />}
 
             {step === 0 && (
               <StepContext
