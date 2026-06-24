@@ -182,7 +182,7 @@ function validatePhone(value: string): boolean {
 function Header() {
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 h-24"
+      className="fixed top-0 left-0 right-0 z-50 h-28"
       style={{ backgroundColor: "#2D2F5B" }}
     >
       <div
@@ -199,7 +199,7 @@ function Header() {
         <img
           src="/logo_horizontal_em_branco-01.png"
           alt="Moreira Suzuki Advogados"
-          className="h-20 w-auto object-contain"
+          className="h-20 w-auto max-w-xs object-contain"
         />
       </div>
     </header>
@@ -893,18 +893,11 @@ export default function HealthCheckForm() {
       <Header />
 
       {/* Main scrollable area — padded to clear fixed header */}
-      <div className="min-h-screen pt-20 pb-12 px-4 flex flex-col items-center justify-center">
-
-        {/* Progress bar — outside card, full width of card */}
-        {step < 7 && (
-          <div className="w-full max-w-md mb-3">
-            <ProgressBar current={step + 1} total={7} />
-          </div>
-        )}
+      <div className="min-h-screen pt-28 pb-12 px-4 flex flex-col items-center justify-center">
 
         {/* Card */}
         <div
-          className="w-full max-w-md rounded-2xl bg-white"
+          className="w-full max-w-xl rounded-2xl bg-white"
           style={{
             boxShadow: "0 8px 40px rgba(45,47,91,0.14)",
             borderTop: "3px solid #B8CD0F",
@@ -924,7 +917,8 @@ export default function HealthCheckForm() {
               </p>
             </div>
           )}
-          <div className="p-6 sm:p-7">
+          <div className="p-6 sm:p-8">
+            {step < 7 && <ProgressBar current={step + 1} total={7} />}
 
             {step === 0 && (
               <StepContext
