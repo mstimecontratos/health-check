@@ -194,13 +194,16 @@ function Header() {
           opacity: 0.30,
         }}
       />
-      <div className="relative h-full max-w-3xl mx-auto px-8 flex items-center">
+      <div className="relative h-full max-w-3xl mx-auto px-8 flex items-center justify-between gap-6">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/logo_ms_horizontal.png"
           alt="Moreira Suzuki Advogados"
           className="h-20 w-auto object-contain"
         />
+        <p className="text-xs font-bold uppercase tracking-[0.18em] text-right" style={{ color: "rgba(255,255,255,0.75)" }}>
+          Diagnóstico de<br />Maturidade Contratual
+        </p>
       </div>
     </header>
   );
@@ -893,7 +896,7 @@ export default function HealthCheckForm() {
       <Header />
 
       {/* Main scrollable area — padded to clear fixed header */}
-      <div className="min-h-screen pt-28 pb-12 px-4 flex flex-col items-center justify-center">
+      <div className="min-h-screen pt-36 pb-12 px-4 flex flex-col items-center justify-center">
 
         {/* Card */}
         <div
@@ -903,20 +906,6 @@ export default function HealthCheckForm() {
             borderTop: "3px solid #B8CD0F",
           }}
         >
-          {/* Card header strip */}
-          {step < 7 && (
-            <div
-              className="px-6 pt-5 pb-4 border-b"
-              style={{ borderColor: "#F3F4F6" }}
-            >
-              <p
-                className="text-xs font-bold uppercase tracking-[0.2em] text-center"
-                style={{ color: "#2D2F5B" }}
-              >
-                Diagnóstico de Maturidade Contratual
-              </p>
-            </div>
-          )}
           <div className="p-6 sm:p-8">
             {step < 7 && <ProgressBar current={step + 1} total={7} />}
 
