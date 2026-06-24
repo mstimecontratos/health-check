@@ -197,9 +197,9 @@ function Header() {
       <div className="relative h-full max-w-3xl mx-auto px-8 flex items-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/logo_horizontal_em_branco-01.png"
+          src="/logo_em_branco-01.png"
           alt="Moreira Suzuki Advogados"
-          className="h-20 w-auto max-w-xs object-contain"
+          className="h-20 w-auto object-contain"
         />
       </div>
     </header>
@@ -251,8 +251,8 @@ function WhatsAppIcon({ size = 20 }: { size?: number }) {
 function ProgressBar({ current, total }: { current: number; total: number }) {
   const pct = Math.round((current / total) * 100);
   return (
-    <div className="w-full max-w-md mx-auto mb-4 px-1">
-      <div className="flex justify-between text-xs font-semibold mb-2" style={{ color: "#2D2F5B" }}>
+    <div className="w-full max-w-md mx-auto mt-2 mb-6 px-1">
+      <div className="flex justify-between text-xs font-semibold mb-3" style={{ color: "#2D2F5B" }}>
         <span>Etapa {current} de {total}</span>
         <span>{pct}%</span>
       </div>
