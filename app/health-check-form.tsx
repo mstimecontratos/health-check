@@ -198,9 +198,9 @@ function Header() {
         {/* Place logo_horizontal_em_branco-01.png in /public */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/logo_horizontal_em_branco-01.png"
+          src="/logo-moreirasuzuki-fnd-trsn.png"
           alt="Moreira Suzuki Advogados"
-          className="h-10 w-auto object-contain"
+          className="h-11 w-auto object-contain"
         />
       </div>
     </header>
@@ -283,7 +283,7 @@ function Tag({ children }: { children: React.ReactNode }) {
 function Question({ children }: { children: React.ReactNode }) {
   return (
     <h2
-      className="text-lg sm:text-xl font-bold mb-6 leading-snug"
+      className="text-xl sm:text-2xl font-bold mb-6 leading-snug"
       style={{ color: "#1A1A1A" }}
     >
       {children}
@@ -897,26 +897,31 @@ export default function HealthCheckForm() {
       <Footer />
 
       {/* Main scrollable area — padded to clear fixed header/footer */}
-      <div className="min-h-screen pt-20 pb-12 px-4 flex flex-col items-center justify-center">
-        {/* Step label above card (form steps only) */}
-        {step < 7 && (
-          <p
-            className="text-xs font-semibold uppercase tracking-[0.2em] mb-4 text-center"
-            style={{ color: "#2D2F5B" }}
-          >
-            Diagnóstico de Maturidade Contratual
-          </p>
-        )}
+      <div className="min-h-screen pt-20 pb-16 px-4 flex flex-col items-center justify-center">
 
         {/* Card */}
         <div
-          className="w-full max-w-lg rounded-2xl bg-white"
+          className="w-full max-w-md rounded-2xl bg-white"
           style={{
-            boxShadow: "0 4px 24px rgba(45,47,91,0.12)",
+            boxShadow: "0 8px 40px rgba(45,47,91,0.14)",
             borderTop: "3px solid #B8CD0F",
           }}
         >
-          <div className="p-6 sm:p-8">
+          {/* Card header strip */}
+          {step < 7 && (
+            <div
+              className="px-6 pt-5 pb-4 border-b"
+              style={{ borderColor: "#F3F4F6" }}
+            >
+              <p
+                className="text-xs font-bold uppercase tracking-[0.2em] text-center"
+                style={{ color: "#2D2F5B" }}
+              >
+                Diagnóstico de Maturidade Contratual
+              </p>
+            </div>
+          )}
+          <div className="p-6 sm:p-7">
             {step < 7 && <ProgressBar current={step + 1} total={7} />}
 
             {step === 0 && (
